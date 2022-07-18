@@ -16,12 +16,13 @@ from rest_framework.generics import ListAPIView
 
 #get user details using token authentication
 class UserDetailAPI(APIView):
-    authentication_classes=(TokenAuthentication,)
-    permission_classes=(IsAuthenticated,)
+    # authentication_classes=(TokenAuthentication,)
+    # permission_classes=(AllowAny,)
+    pagination_class=PageNumberPagination
 
     def get(self,request,*args, **kwargs):
         user=User.objects.get(id=request.user.id)
-        serializer=UserSerializer
+        serializer=UserSerializer(user)
         return Response(serializer.data)
 
 #register user
@@ -31,8 +32,11 @@ class RegisterUserAPIView(generics.CreateAPIView):
 
 
 class ApiUserListView(ListAPIView):
-    queryset=User.objects.all()
+    queryset=User.objects.get_queryset().order_by('id')
     serializer_class=UserSerializer
     authentication_classes=(TokenAuthentication,)
     permission_classes=(AllowAny,)
     pagination_class=PageNumberPagination
+
+
+    

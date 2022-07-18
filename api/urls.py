@@ -1,11 +1,11 @@
+from django import views
 from django.urls import path
-from . import views
-
+from .views import UserDetailAPI,RegisterUserAPIView,ApiUserListView
 app_name = 'api'
 
 urlpatterns = [
-    path('get-details', views.UserDetailAPI.as_view()),
-    path('register',views.RegisterUserAPIView.as_view()),
-    path('list',views.ApiUserListView.as_view(),name='list'),
+    path('details', UserDetailAPI.as_view()),
+    path('register',RegisterUserAPIView.as_view()),
+    path('list',ApiUserListView.as_view(),name='list'),
 
 ]
